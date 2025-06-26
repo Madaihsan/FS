@@ -1,4 +1,4 @@
-// src/pages/guest.jsx
+// src/pages/auth/Guest.jsx
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
