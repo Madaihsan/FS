@@ -40,30 +40,6 @@ Aplikasi ini bertujuan untuk menyediakan solusi tanda tangan digital yang mudah 
 
 ---
 
-## 📁 Struktur Folder Frontend
-
-```plaintext
-src/
-├── assets/                 # Gambar, ikon, dll
-├── components/             # Komponen UI global
-│   ├── PrivateRoute.jsx
-│   ├── Navbar.jsx
-│   └── Sidebar.jsx
-├── layouts/                # Layout halaman utama
-│   └── MainLayout.jsx
-├── pages/                  # Halaman-halaman aplikasi
-│   ├── auth/               # Login, Register, Guest
-│   ├── feature-menu/       # Dashboard dan menu pengguna
-│   └── signature/          # Alur tanda tangan dokumen
-├── services/               # Supabase, notifikasi, PDF service
-├── store/                  # Zustand / Redux store
-├── utils/                  # Helper functions
-├── App.jsx                 # Root component & router
-├── main.jsx                # Entry point aplikasi
-└── App.css                 # Tailwind setup
-
----
-
 ## 🔄 Alur Fitur Tanda Tangan
 
 ### 🗂️ 1. Upload Dokumen
@@ -94,15 +70,92 @@ src/
 
 ---
 
-## 💡 Fitur Tambahan yang Direkomendasikan
+## ⚙️ Instalasi Lokal
 
-| Fitur                           | Tools yang digunakan                                                          |
-|--------------------------------|--------------------------------------------------------------------------------|
-| Preview PDF                    | [`react-pdf`](https://github.com/wojtekmaj/react-pdf)                          |
-| Posisi tanda tangan drag & drop| Koordinat `(x, y)` pada file PDF                                               |
-| Input gambar tanda tangan      | [`react-signature-canvas`](https://github.com/agilgur5/react-signature-canvas) |
-| Real-time status update        | Supabase Realtime Listener                                                     |
-| Notifikasi                     | Supabase + EmailJS / integrasi WhatsApp API                                    |
-| Undangan tanda tangan unik     | Generate link khusus untuk tiap penandatangan                                  |
+### 1. Clone Project
+```bash```
+- git clone https://github.com/FuuNick/manajemen-tanda-tangan-dokumen.git
+- cd manajemen-tanda-tangan-dokumen
+
+
+### 2. Install Dependencies
+```bash```
+- npm install
+
+### 3. Buat File .env dari Template
+```bash```
+- cp .env.example .env
+
+Lalu isi .env dengan kredensial dari Supabase:
+- VITE_SUPABASE_URL=your-supabase-url
+- VITE_SUPABASE_ANON_KEY=your-anon-key
+> ⚠️ *Catatan: URL dan Anon Key share via grup.*
+
+### 4. Jalankan Project
+```bash```
+- npm run dev
+
+---
+
+
+
+
+## 📁 Struktur Folder Frontend
+
+```plaintext
+src/
+├── assets/                  # Gambar, ikon, dll
+├── components/              # Reusable Components
+│   ├── PrivateRoute.jsx
+│   ├── Navbar.jsx
+│   ├── Sidebar.jsx
+├── layouts/                 # Layout halaman dengan sidebar, dll
+│   ├── MainLayout.jsx
+├── pages/                   # Semua halaman
+│   ├── auth/                # Grup halaman autentikasi
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   └── Guest.jsx
+│   ├── feature-menu/        # Grup halaman dashboard dan fitur
+│   │   ├── AkunSaya.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── Keamanan.jsx
+│   │   ├── Organisasi.jsx
+│   │   ├── TugasAkhir.jsx
+│   │   ├── Terkirim.jsx
+│   │   ├── Inbox.jsx
+│   │   ├── Tertandatangani.jsx
+│   │   ├── Kontak.jsx
+│   │   └── Pengaturan.jsx
+│   ├── signature/           # Grup halaman tanda tangan
+│   │   ├── NewSignature.jsx       # Upload dan setup dokumen baru
+│   │   ├── SelectPosition.jsx     # Pilih posisi tanda tangan
+│   │   ├── InviteSigner.jsx       # Undang pihak lain
+│   │   ├── SignDocument.jsx       # Proses tanda tangan
+│   │   └── Completed.jsx          # Dokumen selesai & download
+├── services/               # File service supabase, email, dll
+│   ├── supabase.js
+│   ├── notificationService.js
+│   ├── emailService.js (optional)
+│   └── pdfService.js
+├── store/                  # State management (zustand / redux)
+│   ├── authStore.js
+│   ├── documentStore.js
+│   └── notificationStore.js
+├── utils/                  # Helper function
+│   ├── validators.js
+│   ├── formatters.js
+│   └── constants.js
+├── App.jsx
+├── main.jsx
+└── App.css
+
+
+---
+
+
+---
+
+
 
 
