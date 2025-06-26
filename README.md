@@ -96,13 +96,13 @@ src/
 
 ## 💡 Fitur Tambahan yang Direkomendasikan
 
-| Fitur                           | Tools yang digunakan                          |
-|--------------------------------|------------------------------------------------|
-| Preview PDF                    | [`react-pdf`](https://github.com/wojtekmaj/react-pdf) |
-| Posisi tanda tangan drag & drop| Koordinat `(x, y)` pada file PDF              |
+| Fitur                           | Tools yang digunakan                                                          |
+|--------------------------------|--------------------------------------------------------------------------------|
+| Preview PDF                    | [`react-pdf`](https://github.com/wojtekmaj/react-pdf)                          |
+| Posisi tanda tangan drag & drop| Koordinat `(x, y)` pada file PDF                                               |
 | Input gambar tanda tangan      | [`react-signature-canvas`](https://github.com/agilgur5/react-signature-canvas) |
-| Real-time status update        | Supabase Realtime Listener                    |
-| Notifikasi                     | Supabase + EmailJS / integrasi WhatsApp API   |
-| Undangan tanda tangan unik     | Generate link khusus untuk tiap penandatangan |
+| Real-time status update        | Supabase Realtime Listener                                                     |
+| Notifikasi                     | Supabase + EmailJS / integrasi WhatsApp API                                    |
+| Undangan tanda tangan unik     | Generate link khusus untuk tiap penandatangan                                  |
 
 
