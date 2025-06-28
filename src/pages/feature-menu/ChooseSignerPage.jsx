@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import SignerSelectionModal from '../components/SignerSelectionModal';
+import SignerSelectionModal from '../../components/SignerSelectionModal';
 
 function ChooseSignerPage() {
   const location = useLocation();

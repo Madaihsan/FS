@@ -1,24 +1,3 @@
-// src/App.jsx
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import UploadPage from './pages/UploadPage.jsx';
-import ChooseSignerPage from './pages/ChooseSignerPage.jsx';
-import DownloadDocumentPage from './pages/DownloadDocumentPage.jsx'; 
-
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<UploadPage />} />
-      <Route path="/choose-signer" element={<ChooseSignerPage />} />
-      <Route path="/download" element={<DownloadDocumentPage />} /> 
-
-
-    </Routes>
-  );
-}
-
-export default App;
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Guest from './pages/auth/guest'
 import Login from './pages/auth/Login'
@@ -26,6 +5,9 @@ import Register from './pages/auth/register'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import MainLayout from './layouts/MainLayout'
+import UploadPage from './pages/feature-menu/UploadPage.jsx';
+import ChooseSignerPage from './pages/feature-menu/ChooseSignerPage.jsx';
+import DownloadDocumentPage from './pages/feature-menu/DownloadDocumentPage.jsx'; 
 
 export default function App() {
   return (
@@ -37,6 +19,9 @@ export default function App() {
         <Route path="/Navbar" element={<Navbar />} />
         <Route path="/Sidebar" element={<Sidebar />} />
         <Route path="/MainLayout" element={<MainLayout />} />
+        <Route path="/UploadPage" element={<UploadPage />} />
+        <Route path="/download" element={<DownloadDocumentPage />} /> 
+        <Route path="/choose-signer" element={<ChooseSignerPage />} />
       </Routes>
     </Router>
   )
