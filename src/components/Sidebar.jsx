@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import { NavLink } from 'react-router-dom'
 import {
   User as UserIcon,
@@ -30,22 +29,22 @@ export default function Sidebar({ user }) {
       {/* Menu Sections */}
       <div className="space-y-4">
         <MenuSection title="Profile">
-          <MenuItem icon={<UserIcon size={18} />} text="Akun Saya" path="akunsaya" />
-          <MenuItem icon={<ShieldCheck size={18} />} text="Keamanan" path="keamanan" />
-          <MenuItem icon={<Users size={18} />} text="Organisasi" path="organisasi" />
+          <MenuItem icon={<UserIcon size={18} />} text="Akun Saya" path="/akunsaya" />
+          <MenuItem icon={<ShieldCheck size={18} />} text="Keamanan" path="/keamanan" />
+          <MenuItem icon={<Users size={18} />} text="Organisasi" path="/organisasi" />
         </MenuSection>
 
         <MenuSection title="Aktivitas">
-          <MenuItem icon={<FileText size={18} />} text="Tugas Akhir" path="tugas-akhir" />
+          <MenuItem icon={<FileText size={18} />} text="Tugas Akhir" path="/tugas-akhir" />
         </MenuSection>
 
         <MenuSection title="Tanda Tangan">
-          <MenuItem icon={<PenTool size={18} />} text="Dashboard" path="dashboard" />
-          <MenuItem icon={<Send size={18} />} text="Terkirim" path="terkirim" />
-          <MenuItem icon={<Inbox size={18} />} text="Inbox" path="inbox" />
-          <MenuItem icon={<ShieldCheck size={18} />} text="Tertandatangani" path="tertandatangani" />
-          <MenuItem icon={<Contact size={18} />} text="Kontak" path="kontak" />
-          <MenuItem icon={<Settings size={18} />} text="Pengaturan" path="pengaturan" />
+          <MenuItem icon={<PenTool size={18} />} text="Dashboard" path="/dashboard" />
+          <MenuItem icon={<Send size={18} />} text="Terkirim" path="/terkirim" />
+          <MenuItem icon={<Inbox size={18} />} text="Inbox" path="/inbox" />
+          <MenuItem icon={<ShieldCheck size={18} />} text="Tertandatangani" path="/tertandatangani" />
+          <MenuItem icon={<Contact size={18} />} text="Kontak" path="/kontak" />
+          <MenuItem icon={<Settings size={18} />} text="Pengaturan" path="/pengaturan" />
         </MenuSection>
       </div>
     </aside>
@@ -79,4 +78,3 @@ function MenuItem({ icon, text, path }) {
     </NavLink>
   )
 }
-
