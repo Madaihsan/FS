@@ -1,12 +1,13 @@
 // src/pages/auth/Login.jsx
 import React, { useState } from 'react'
-import { supabase } from '../../service/supabase'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '../../App'
 
 export default function Login() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [error, setError] = useState(null)
+  const { login, loading } = useAuthStore()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -14,14 +15,14 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    const { error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
-    })
-    if (error) {
-      setError(error.message)
+    setError(null)
+    
+    const result = await login(formData.email, formData.password)
+    
+    if (result.success) {
+      navigate('/MainLayout')
     } else {
-      navigate('/MainLayout') // ganti ke halaman dashboard jika login berhasil
+      setError(result.error)
     }
   }
 
@@ -36,6 +37,7 @@ export default function Login() {
           placeholder="Email"
           className="w-full p-2 mb-3 border rounded"
           onChange={handleChange}
+          value={formData.email}
           required
         />
         <input
@@ -44,10 +46,15 @@ export default function Login() {
           placeholder="Password"
           className="w-full p-2 mb-4 border rounded"
           onChange={handleChange}
+          value={formData.password}
           required
         />
-        <button type="submit" className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600">
-          Login
+        <button 
+          type="submit" 
+          disabled={loading}
+          className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+        >
+          {loading ? 'Loading...' : 'Login'}
         </button>
         <p className="mt-4 text-sm text-center">
           Belum punya akun? <a href="/register" className="text-blue-500">Register</a>
