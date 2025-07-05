@@ -19,67 +19,20 @@ export default function Register() {
     e.preventDefault()
     setError(null)
     setSuccess(null)
-    
+
     const result = await register(formData.email, formData.password)
-    
+
     if (result.success) {
       setSuccess(result.message)
-      // Redirect ke login setelah 2 detik
       setTimeout(() => {
         navigate('/login')
       }, 2000)
-    const { data, error } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-      options: {
-        data: {
-          name: formData.name,
-        },
-      },
-    })
-    if (error) {
-      setError(error.message)
     } else {
       setError(result.error)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleRegister} className="bg-white p-6 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">Register</h2>
-        {error && <p className="text-red-500 mb-2">{error}</p>}
-        {success && <p className="text-green-500 mb-2">{success}</p>}
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={handleChange}
-          value={formData.email}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password (minimal 6 karakter)"
-          className="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={handleChange}
-          value={formData.password}
-          minLength={6}
-          required
-        />
-        <button 
-          type="submit" 
-          disabled={loading}
-          className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? 'Registering...' : 'Register'}
-        </button>
-        <p className="mt-4 text-sm text-center">
-          Sudah punya akun? <a href="/login" className="text-blue-500 hover:underline">Login</a>
-        </p>
-      </form>
     <div className="flex flex-col lg:flex-row min-h-screen font-sans">
       {/* KIRI */}
       <div className="w-full lg:w-[calc(100%-616px)] bg-[#F8F9FA] flex items-center justify-center py-12 px-6">
@@ -88,6 +41,7 @@ export default function Register() {
           <p className="mb-6 text-gray-700">Daftar akun dan mulai tanda tangan</p>
 
           {error && <p className="text-red-500 mb-2">{error}</p>}
+          {success && <p className="text-green-500 mb-2">{success}</p>}
 
           {/* Input Nama */}
           <div className="flex items-center border rounded px-3 py-2 mb-4">
@@ -138,9 +92,10 @@ export default function Register() {
           {/* Tombol Daftar */}
           <button
             type="submit"
-            className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4"
+            disabled={loading}
+            className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Daftar
+            {loading ? 'Mendaftarkan...' : 'Daftar'}
           </button>
 
           {/* Link Login */}
@@ -155,7 +110,7 @@ export default function Register() {
           <p className="text-xs text-gray-500">
             Dengan membuat akun, Anda menyetujui{' '}
             <span className="underline cursor-pointer">Ketentuan Layanan</span> dan{' '}
-            <span className="underline cursor-pointer">Ketentuan Privasi</span> iLovePDF.
+            <span className="underline cursor-pointer">Kebijakan Privasi</span>.
           </p>
         </form>
       </div>

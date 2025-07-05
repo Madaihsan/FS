@@ -7,24 +7,23 @@ import { supabase } from './service/supabase'
 // Import komponen
 import Guest from './pages/auth/guest'
 import Login from './pages/auth/Login'
-import Register from './pages/auth/Register' // Pastikan huruf besar
+import Register from './pages/auth/Register' // Perhatikan huruf besar
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import MainLayout from './layouts/MainLayout'
 import UploadPage from './pages/feature-menu/UploadPage.jsx'
 import ChooseSignerPage from './pages/feature-menu/ChooseSignerPage.jsx'
 import DownloadDocumentPage from './pages/feature-menu/DownloadDocumentPage.jsx'
+import AkunSaya from './pages/feature-menu/AkunSaya'
 
-
-// Auth Store dengan integrasi Supabase
+// Zustand store untuk autentikasi
 export const useAuthStore = create((set, get) => ({
   user: null,
-  loading: true, // Mulai dengan loading true
+  loading: true,
   
   setUser: (user) => set({ user, loading: false }),
   setLoading: (loading) => set({ loading }),
-  
-  // Initialize auth state
+
   initialize: async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession()
@@ -34,17 +33,12 @@ export const useAuthStore = create((set, get) => ({
       set({ user: null, loading: false })
     }
   },
-  
-  // Fungsi login
+
   login: async (email, password) => {
     set({ loading: true })
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw error
-      
       set({ user: data.user, loading: false })
       return { success: true }
     } catch (error) {
@@ -53,16 +47,11 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  // Fungsi register
   register: async (email, password) => {
     set({ loading: true })
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password
-      })
+      const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) throw error
-      
       set({ loading: false })
       return { success: true, message: 'Cek email untuk verifikasi!' }
     } catch (error) {
@@ -70,8 +59,7 @@ export const useAuthStore = create((set, get) => ({
       return { success: false, error: error.message }
     }
   },
-  
-  // Fungsi logout
+
   logout: async () => {
     set({ loading: true })
     try {
@@ -82,26 +70,20 @@ export const useAuthStore = create((set, get) => ({
       set({ user: null, loading: false })
     }
   },
-  
-  // Cek apakah user sudah login
+
   isAuthenticated: () => {
     const state = get()
     return !!state.user
   }
 }))
 
-// PrivateRoute Component
+// Komponen PrivateRoute
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuthStore()
 
   if (loading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        minHeight: '100vh' 
-      }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <p>Loading...</p>
       </div>
     )
@@ -114,96 +96,78 @@ const PrivateRoute = ({ children }) => {
   return children
 }
 
-// Auth Listener Hook
+// Custom hook untuk mendengarkan perubahan auth
 const useAuthListener = () => {
   const { setUser, initialize } = useAuthStore()
-import AkunSaya from "./pages/feature-menu/AkunSaya";
 
   useEffect(() => {
-    // Initialize auth state
     initialize()
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user || null)
       }
     )
 
-    return () => subscription.unsubscribe()
-  }, [setUser, initialize])
+    return () => {
+      if (subscription) subscription.unsubscribe()
+    }
+  }, [])
 }
 
-// Main App Component
+// Komponen utama
 export default function App() {
   const { user } = useAuthStore()
-  
-  // Setup auth listener
+
   useAuthListener()
 
   return (
     <Router>
       <Routes>
-        {/* Halaman PUBLIK */}
+        {/* Halaman Publik */}
         <Route path="/" element={<Guest />} />
-        <Route 
-          path="/login" 
-          element={user ? <Navigate to="/MainLayout" replace /> : <Login />} 
-        />
-        <Route 
-          path="/register" 
-          element={user ? <Navigate to="/MainLayout" replace /> : <Register />} 
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-        {/* Halaman PRIVATE */}
+        {/* Halaman Private */}
         <Route path="/Navbar" element={
           <PrivateRoute>
             <Navbar />
           </PrivateRoute>
         } />
-        
         <Route path="/Sidebar" element={
           <PrivateRoute>
             <Sidebar />
           </PrivateRoute>
         } />
-        
         <Route path="/MainLayout" element={
           <PrivateRoute>
             <MainLayout />
           </PrivateRoute>
         } />
-        
         <Route path="/UploadPage" element={
           <PrivateRoute>
             <UploadPage />
           </PrivateRoute>
         } />
-        
         <Route path="/download" element={
           <PrivateRoute>
             <DownloadDocumentPage />
           </PrivateRoute>
         } />
-        
         <Route path="/choose-signer" element={
           <PrivateRoute>
             <ChooseSignerPage />
           </PrivateRoute>
         } />
-      </Routes>
-    </Router>
-  )
-}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/Navbar" element={<Navbar />} />
-        <Route path="/Sidebar" element={<Sidebar />} />
-        <Route path="/MainLayout" element={<MainLayout />} />
-        <Route path="/UploadPage" element={<UploadPage />} />
-        <Route path="/download" element={<DownloadDocumentPage />} />
-        <Route path="/choose-signer" element={<ChooseSignerPage />} />
-        <Route path="/akunsaya" element={<AkunSaya />} />
+        <Route path="/akunsaya" element={
+          <PrivateRoute>
+            <AkunSaya />
+          </PrivateRoute>
+        } />
+
+        {/* Fallback jika route tidak ditemukan */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   )
