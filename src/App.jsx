@@ -15,6 +15,7 @@ import UploadPage from './pages/feature-menu/UploadPage.jsx'
 import ChooseSignerPage from './pages/feature-menu/ChooseSignerPage.jsx'
 import DownloadDocumentPage from './pages/feature-menu/DownloadDocumentPage.jsx'
 
+
 // Auth Store dengan integrasi Supabase
 export const useAuthStore = create((set, get) => ({
   user: null,
@@ -116,6 +117,7 @@ const PrivateRoute = ({ children }) => {
 // Auth Listener Hook
 const useAuthListener = () => {
   const { setUser, initialize } = useAuthStore()
+import AkunSaya from "./pages/feature-menu/AkunSaya";
 
   useEffect(() => {
     // Initialize auth state
@@ -189,6 +191,19 @@ export default function App() {
             <ChooseSignerPage />
           </PrivateRoute>
         } />
+      </Routes>
+    </Router>
+  )
+}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/Navbar" element={<Navbar />} />
+        <Route path="/Sidebar" element={<Sidebar />} />
+        <Route path="/MainLayout" element={<MainLayout />} />
+        <Route path="/UploadPage" element={<UploadPage />} />
+        <Route path="/download" element={<DownloadDocumentPage />} />
+        <Route path="/choose-signer" element={<ChooseSignerPage />} />
+        <Route path="/akunsaya" element={<AkunSaya />} />
       </Routes>
     </Router>
   )
