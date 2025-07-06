@@ -60,6 +60,7 @@ export default function Login() {
     if (result.success) {
       navigate('/MainLayout')
     } else {
+      navigate('/home/akunsaya')
       navigate('/MainLayout')
       setError(result.error)
     }

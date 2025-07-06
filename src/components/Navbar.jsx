@@ -46,7 +46,7 @@ export default function Navbar({ user, onLogout }) {
               <ul className="py-1">
                 <li>
                   <Link
-                    to="/akunsaya"
+                    to="/home/akunsaya"
                     className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     <UserIcon size={16} className="mr-2" />
@@ -55,7 +55,7 @@ export default function Navbar({ user, onLogout }) {
                 </li>
                 <li>
                   <Link
-                    to="/pengaturan"
+                    to="/home/pengaturan"
                     className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     <Settings size={16} className="mr-2" />
@@ -63,8 +63,6 @@ export default function Navbar({ user, onLogout }) {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/login">
                   <button
                     onClick={onLogout}
                     className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
@@ -72,7 +70,6 @@ export default function Navbar({ user, onLogout }) {
                     <LogOut size={16} className="mr-2" />
                     Logout
                   </button>
-                  </Link>                
                 </li>
               </ul>
             </div>
