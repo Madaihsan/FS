@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { supabase } from '../../service/supabase'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '../../App'
 import { Eye, EyeOff, User, Mail, Lock } from 'lucide-react'
 
 export default function Register() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(null)
+  const { register, loading } = useAuthStore()
   const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (e) => {
@@ -26,9 +28,18 @@ export default function Register() {
     })
     if (error) {
       setError(error.message)
+    setError(null)
+    setSuccess(null)
+
+    const result = await register(formData.email, formData.password)
+
+    if (result.success) {
+      setSuccess(result.message)
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
     } else {
-      alert('Cek email untuk verifikasi!')
-      navigate('/login')
+      setError(result.error)
     }
   }
 
@@ -41,6 +52,7 @@ export default function Register() {
           <p className="mb-6 text-gray-700">Daftar akun dan mulai tanda tangan</p>
 
           {error && <p className="text-red-500 mb-2">{error}</p>}
+          {success && <p className="text-green-500 mb-2">{success}</p>}
 
           {/* Input Nama */}
           <div className="flex items-center border rounded px-3 py-2 mb-4">
@@ -94,6 +106,10 @@ export default function Register() {
             className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4"
           >
             Daftar
+            disabled={loading}
+            className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Mendaftarkan...' : 'Daftar'}
           </button>
 
           {/* Link Login */}
@@ -109,6 +125,7 @@ export default function Register() {
             Dengan membuat akun, Anda menyetujui{' '}
             <span className="underline cursor-pointer">Ketentuan Layanan</span> dan{' '}
             <span className="underline cursor-pointer">Ketentuan Privasi</span> iLovePDF.
+            <span className="underline cursor-pointer">Kebijakan Privasi</span>.
           </p>
         </form>
       </div>
