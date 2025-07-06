@@ -1,29 +1,56 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Guest from './pages/auth/guest'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+// Public pages
+import Guest from './pages/auth/Guest'
 import Login from './pages/auth/Login'
-import Register from './pages/auth/register'
-import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
+import Register from './pages/auth/Register'
+
+// Layout dan route proteksi
+import PrivateRoute from './components/PrivateRoute'
 import MainLayout from './layouts/MainLayout'
-import UploadPage from './pages/feature-menu/UploadPage.jsx';
-import ChooseSignerPage from './pages/feature-menu/ChooseSignerPage.jsx';
-import DownloadDocumentPage from './pages/feature-menu/DownloadDocumentPage.jsx'; 
+
+// Feature pages (dalam layout setelah login)
+import AkunSaya from './pages/feature-menu/AkunSaya'
+import Dashboard from './pages/feature-menu/Dashboard'
+import Kontak from './pages/feature-menu/Kontak'
+import Keamanan from './pages/feature-menu/Keamanan'
+import Organisasi from './pages/feature-menu/Organisasi'
+import TugasAkhir from './pages/feature-menu/TugasAkhir'
+import Terkirim from './pages/feature-menu/Terkirim'
+import Inbox from './pages/feature-menu/Inbox'
+import TertandaTangan from './pages/feature-menu/TertandaTangan'
+import Pengaturan from './pages/feature-menu/Pengaturan'
 
 export default function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
+        {/* Layout utama, proteksi via PrivateRoute */}
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <MainLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route path="akunsaya" element={<AkunSaya />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="kontak" element={<Kontak />} />
+          <Route path="keamanan" element={<Keamanan />} />
+          <Route path="organisasi" element={<Organisasi />} />
+          <Route path="tugas-akhir" element={<TugasAkhir />} />
+          <Route path="terkirim" element={<Terkirim />} />
+          <Route path="inbox" element={<Inbox />} />
+          <Route path="tertandatangan" element={<TertandaTangan />} />
+          <Route path="pengaturan" element={<Pengaturan />} />
+        </Route>
+
+        {/* Public routes */}
         <Route path="/" element={<Guest />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/Navbar" element={<Navbar />} />
-        <Route path="/Sidebar" element={<Sidebar />} />
-        <Route path="/MainLayout" element={<MainLayout />} />
-        <Route path="/UploadPage" element={<UploadPage />} />
-        <Route path="/download" element={<DownloadDocumentPage />} /> 
-        <Route path="/choose-signer" element={<ChooseSignerPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   )
 }
-

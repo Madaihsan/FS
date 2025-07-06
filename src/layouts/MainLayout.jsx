@@ -1,30 +1,32 @@
 // src/layouts/MainLayout.jsx
-import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-
-import Sidebar from '../components/Sidebar'
+import { useEffect, useState } from 'react'
+import { supabase } from '../service/supabase'
 import Navbar from '../components/Navbar'
+import Sidebar from '../components/Sidebar'
 
 export default function MainLayout() {
-  // Data dummy user
-  const [user] = useState({
-    email: 'dummy@example.com',
-    user_metadata: {
-      name: 'Pengguna Dummy',
-      avatar_url: 'https://ui-avatars.com/api/?name=Dummy'
-    }
-  })
+  const [user, setUser] = useState(null)
 
-  const handleLogout = () => {
-    alert('Logout clicked (dummy)')
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser()
+      setUser(data?.user || null)
+    }
+    getUser()
+  }, [])
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    window.location.href = '/login'
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar user={user} />
-      <div className="flex flex-col flex-1">
-        <Navbar user={user} onLogout={handleLogout} />
-        <main className="flex-1 p-6 overflow-y-auto">
+    <div className="flex flex-col min-h-screen">
+      <Navbar user={user} onLogout={handleLogout} />
+      <div className="flex flex-1">
+        <Sidebar user={user} />
+        <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
           <Outlet />
         </main>
       </div>
