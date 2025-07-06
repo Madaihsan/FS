@@ -17,6 +17,17 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault()
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          name: formData.name,
+        },
+      },
+    })
+    if (error) {
+      setError(error.message)
     setError(null)
     setSuccess(null)
 
@@ -92,6 +103,9 @@ export default function Register() {
           {/* Tombol Daftar */}
           <button
             type="submit"
+            className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4"
+          >
+            Daftar
             disabled={loading}
             className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -110,6 +124,7 @@ export default function Register() {
           <p className="text-xs text-gray-500">
             Dengan membuat akun, Anda menyetujui{' '}
             <span className="underline cursor-pointer">Ketentuan Layanan</span> dan{' '}
+            <span className="underline cursor-pointer">Ketentuan Privasi</span> iLovePDF.
             <span className="underline cursor-pointer">Kebijakan Privasi</span>.
           </p>
         </form>
