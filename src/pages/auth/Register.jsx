@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../App'
 import { Eye, EyeOff, User, Mail, Lock } from 'lucide-react'
+import { supabase } from '../../service/supabase' // ✅ ditambahkan
 
 export default function Register() {
   const navigate = useNavigate()
@@ -17,7 +18,13 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault()
-    const { data, error } = await supabase.auth.signUp({
+
+    // Reset pesan error/sukses sebelum mulai request
+    setError(null)
+    setSuccess(null)
+
+    // Sign up Supabase manual (bisa dihapus jika hanya pakai useAuthStore().register)
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
       options: {
@@ -26,11 +33,13 @@ export default function Register() {
         },
       },
     })
-    if (error) {
-      setError(error.message)
-    setError(null)
-    setSuccess(null)
 
+    if (signUpError) {
+      setError(signUpError.message)
+      return
+    }
+
+    // Register ke Zustand store
     const result = await register(formData.email, formData.password)
 
     if (result.success) {
@@ -103,9 +112,6 @@ export default function Register() {
           {/* Tombol Daftar */}
           <button
             type="submit"
-            className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4"
-          >
-            Daftar
             disabled={loading}
             className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >

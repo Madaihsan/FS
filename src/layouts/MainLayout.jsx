@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../service/supabase'
 import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
 
 export default function MainLayout() {
   const [user, setUser] = useState(null)

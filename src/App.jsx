@@ -1,15 +1,18 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { create } from 'zustand'
+import { useEffect } from 'react'
+import { supabase } from './service/supabase'
 
-// Public pages
+// Import komponen
 import Guest from './pages/auth/Guest'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
-
-// Layout dan route proteksi
-import PrivateRoute from './components/PrivateRoute'
+import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 import MainLayout from './layouts/MainLayout'
-
-// Feature pages (dalam layout setelah login)
+import UploadPage from './pages/feature-menu/UploadPage.jsx'
+import ChooseSignerPage from './pages/feature-menu/ChooseSignerPage.jsx'
+import DownloadDocumentPage from './pages/feature-menu/DownloadDocumentPage.jsx'
 import AkunSaya from './pages/feature-menu/AkunSaya'
 import Dashboard from './pages/feature-menu/Dashboard'
 import Kontak from './pages/feature-menu/Kontak'
@@ -20,24 +23,6 @@ import Terkirim from './pages/feature-menu/Terkirim'
 import Inbox from './pages/feature-menu/Inbox'
 import TertandaTangan from './pages/feature-menu/TertandaTangan'
 import Pengaturan from './pages/feature-menu/Pengaturan'
-=======
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { create } from 'zustand'
-import { useEffect } from 'react'
-import { supabase } from './service/supabase'
-
-// Import komponen
-import Guest from './pages/auth/guest'
-import Login from './pages/auth/Login'
-import Register from './pages/auth/Register' // Perhatikan huruf besar
-import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
-import MainLayout from './layouts/MainLayout'
-import UploadPage from './pages/feature-menu/UploadPage.jsx'
-import ChooseSignerPage from './pages/feature-menu/ChooseSignerPage.jsx'
-import DownloadDocumentPage from './pages/feature-menu/DownloadDocumentPage.jsx'
-import AkunSaya from './pages/feature-menu/AkunSaya'
 
 // Zustand store untuk autentikasi
 export const useAuthStore = create((set, get) => ({
@@ -133,19 +118,17 @@ const useAuthListener = () => {
     )
 
     return () => {
-      if (subscription) subscription.unsubscribe()
+      subscription?.unsubscribe()
     }
   }, [])
 }
 
 // Komponen utama
 export default function App() {
-  const { user } = useAuthStore()
-
   useAuthListener()
 
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         {/* Layout utama, proteksi via PrivateRoute */}
         <Route
@@ -172,12 +155,8 @@ export default function App() {
         <Route path="/" element={<Guest />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* Halaman Publik */}
-        <Route path="/" element={<Guest />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
 
-        {/* Halaman Private */}
+        {/* Halaman Private di luar /home */}
         <Route path="/Navbar" element={
           <PrivateRoute>
             <Navbar />
@@ -217,6 +196,6 @@ export default function App() {
         {/* Fallback jika route tidak ditemukan */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   )
 }
