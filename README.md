@@ -1,6 +1,6 @@
 # 📄 DigitalSign: Aplikasi Tanda Tangan Digital Publik
 
-**DigitalSign** adalah platform aplikasi web publik yang memungkinkan pengguna mengunggah dokumen (PDF/gambar), menempatkan tanda tangan digital secara langsung, dan mengelola proses kolaborasi tanda tangan dengan pihak lain. Aplikasi ini dirancang untuk memudahkan proses penandatanganan dokumen secara efisien dan aman.
+**DigitalSign** adalah platform aplikasi web publik yang memungkinkan pengguna mengunggah dokumen (PDF/gambar), menempatkan tanda tangan digital secara langsung, dan mengelola proses kolaborasi tanda tangan dengan pihak lain. Aplikasi ini dirancang untuk memudahkan proses penandatanganan dokumen secara efisien dan aman. 
 
 ---
 
